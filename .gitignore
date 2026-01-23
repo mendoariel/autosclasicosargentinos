@@ -1,0 +1,48 @@
+# SSH keys
+*.pem
+*.key
+id_rsa*
+id_ed25519*
+
+# SSH config with sensitive data
+.ssh/config
+
+# Environment variables
+.env
+.env.local
+.env.production
+.env*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+
+# Dependencies
+node_modules/
+.next/
+dist/
+build/
+
+# Database
+*.db
+*.sqlite
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Docker
+.docker/
+
+# Prisma
+prisma/migrations/
+
+# Database data (local persistence)
+data/
+

@@ -1,0 +1,25 @@
+FROM node:20-slim
+
+WORKDIR /app
+
+# Instalar dependencias del sistema necesarias para Prisma y bcrypt
+RUN apt-get update && apt-get install -y \
+    openssl \
+    python3 \
+    make \
+    g++ \
+    && rm -rf /var/lib/apt/lists/*
+
+# Instalar dependencias
+COPY package*.json ./
+RUN npm install
+
+# Copiar código (se monta como volumen en dev)
+COPY . .
+
+# Exponer puerto
+EXPOSE 5000
+
+# Comando con hot reload
+CMD ["npm", "run", "dev"]
+

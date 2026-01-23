@@ -1,0 +1,440 @@
+:root {
+    --primary: #ff4d00;
+    /* Neon Orange */
+    --dark: #0a0a0a;
+    --dark-surface: #121212;
+    --light: #ffffff;
+    --gray: #888888;
+    --max-width: 1200px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--dark);
+    color: var(--light);
+    line-height: 1.6;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    transition: 0.3s;
+}
+
+/* Navbar */
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    padding: 1.5rem 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    z-index: 1000;
+    transition: 0.4s ease;
+}
+
+.navbar.scrolled {
+    background: rgba(10, 10, 10, 0.95);
+    padding: 1rem 5%;
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+}
+
+.logo {
+    font-family: 'Russo One', sans-serif;
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+}
+
+.logo span {
+    color: var(--primary);
+}
+
+.nav-links {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-links a:hover {
+    color: var(--primary);
+}
+
+.btn-contact {
+    border: 1px solid var(--primary);
+    padding: 0.5rem 1.5rem;
+    border-radius: 5px;
+    color: var(--primary) !important;
+}
+
+.btn-contact:hover {
+    background: var(--primary);
+    color: white !important;
+}
+
+/* Hero Section */
+.hero {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    /* Use a dark gradient as background since we don't have an image yet */
+    background: radial-gradient(circle at center, #1a1a1a 0%, #000 100%);
+    padding: 0 1rem;
+}
+
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('precision-bg.png') center/cover no-repeat;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+.hero-content h1 {
+    font-family: 'Russo One', sans-serif;
+    font-size: 4rem;
+    line-height: 1.1;
+    margin-bottom: 1rem;
+    text-transform: uppercase;
+}
+
+.hero-content .highlight {
+    color: transparent;
+    -webkit-text-stroke: 1px var(--primary);
+    position: relative;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    color: var(--gray);
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-group {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.btn {
+    padding: 0.8rem 2rem;
+    border-radius: 5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    border: none;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 77, 0, 0.4);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 1px solid white;
+    color: white;
+}
+
+.btn-outline:hover {
+    background: white;
+    color: var(--dark);
+}
+
+/* Services */
+.services {
+    padding: 8rem 5%;
+    background: var(--dark-surface);
+}
+
+.section-title {
+    font-family: 'Russo One', sans-serif;
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 4rem;
+    text-transform: uppercase;
+}
+
+.container {
+    max-width: var(--max-width);
+    margin: 0 auto;
+}
+
+.grid-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+}
+
+.card {
+    background: var(--dark);
+    padding: 2rem;
+    border-radius: 10px;
+    border: 1px solid #222;
+    transition: 0.3s;
+}
+
+.card:hover {
+    border-color: var(--primary);
+    transform: translateY(-5px);
+}
+
+.card i {
+    font-size: 2rem;
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+}
+
+.card h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.card p {
+    color: var(--gray);
+}
+
+/* Banner */
+.banner {
+    padding: 6rem 5%;
+    text-align: center;
+    background: linear-gradient(45deg, #000, #111);
+    border-top: 1px solid #222;
+    border-bottom: 1px solid #222;
+}
+
+.banner h2 {
+    font-family: 'Russo One', sans-serif;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+/* Contact */
+.contact {
+    padding: 8rem 5%;
+}
+
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+}
+
+.info-item {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    align-items: flex-start;
+}
+
+.info-item i {
+    font-size: 1.5rem;
+    color: var(--primary);
+    margin-top: 5px;
+}
+
+.info-item h4 {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.info-item p {
+    color: var(--gray);
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    background: var(--dark-surface);
+    border: 1px solid #333;
+    padding: 1rem;
+    color: white;
+    border-radius: 5px;
+    outline: none;
+    font-family: inherit;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: var(--primary);
+}
+
+/* Footer */
+footer {
+    padding: 4rem 5%;
+    border-top: 1px solid #222;
+    text-align: center;
+}
+
+.logo-footer {
+    font-family: 'Russo One', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.logo-footer span {
+    color: var(--primary);
+}
+
+.socials {
+    margin-top: 1.5rem;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+}
+
+.socials i {
+    font-size: 1.5rem;
+    color: var(--gray);
+}
+
+.socials i:hover {
+    color: var(--primary);
+}
+
+/* Definition Section */
+.definition-section {
+    padding: 10rem 5%;
+    background: linear-gradient(to bottom, var(--dark), #151515);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    position: relative;
+}
+
+.definition-card {
+    max-width: 800px;
+    background: rgba(20, 20, 20, 0.7);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 77, 0, 0.2);
+    padding: 4rem;
+    border-radius: 20px;
+    position: relative;
+    z-index: 2;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+}
+
+.definition-header {
+    margin-bottom: 2rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding-bottom: 1.5rem;
+}
+
+.word {
+    font-family: 'Russo One', sans-serif;
+    font-size: 3.5rem;
+    color: var(--light);
+    display: block;
+    line-height: 1;
+}
+
+.phonetic {
+    font-size: 1.1rem;
+    color: var(--primary);
+    font-family: 'Outfit', sans-serif;
+    font-weight: 300;
+    margin-top: 0.5rem;
+    display: block;
+    letter-spacing: 2px;
+}
+
+.meaning {
+    margin-bottom: 2.5rem;
+}
+
+.meaning-item {
+    margin-bottom: 1.5rem;
+}
+
+.type {
+    font-style: italic;
+    color: var(--gray);
+    font-size: 0.9rem;
+    margin-right: 0.5rem;
+}
+
+.definition-text {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.5;
+}
+
+.etymology {
+    font-size: 0.95rem;
+    color: var(--gray);
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 1.5rem;
+}
+
+.definition-card::before {
+    content: '"';
+    position: absolute;
+    top: -20px;
+    left: 40px;
+    font-size: 10rem;
+    color: var(--primary);
+    opacity: 0.1;
+    font-family: serif;
+}
+
+/* Animations */
+[data-reveal] {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 1s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+[data-reveal].revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Responsive updates */
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.8rem;
+    }
+
+    .definition-card {
+        padding: 2.5rem 1.5rem;
+    }
+
+    .word {
+        font-size: 2.5rem;
+    }
+
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-links {
+        display: none;
+    }
+}

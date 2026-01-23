@@ -1,0 +1,11 @@
+version: '3.8'
+
+services:
+  precisionmotos:
+    image: nginx:alpine
+    container_name: precisionmotos-standalone
+    restart: unless-stopped
+    volumes:
+      - ./precisionmotos:/usr/share/nginx/html
+    ports:
+      - "8081:80"

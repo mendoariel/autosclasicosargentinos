@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Precision Motos | Servicio Técnico Especializado</title>
+    <meta name="description"
+        content="Servicio técnico especializado en motocicletas. Mantenimiento, reparación y performance.">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&family=Russo+One&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" type="image/png" href="favicon.png">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="logo">PRECISION<span>MOTOS</span></div>
+        <div class="nav-links">
+            <a href="#inicio">Inicio</a>
+            <a href="#servicios">Servicios</a>
+            <a href="#nosotros">Nosotros</a>
+            <a href="#contacto" class="btn-contact">Contactar</a>
+        </div>
+    </nav>
+
+    <header id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>PASIÓN POR LA <br><span class="highlight">PERFORMANCE</span></h1>
+            <p>Servicio técnico especializado para quienes exigen lo mejor.</p>
+            <div class="cta-group">
+                <a href="#contacto" class="btn btn-primary">Agendar Turno</a>
+                <a href="#servicios" class="btn btn-outline">Ver Servicios</a>
+            </div>
+        </div>
+        <div class="hero-overlay"></div>
+    </header>
+
+    <section class="definition-section">
+        <div class="definition-card" data-reveal>
+            <div class="definition-header">
+                <span class="word">Precisión</span>
+                <span class="phonetic">/pre.si.'sjon/</span>
+            </div>
+            <div class="meaning">
+                <div class="meaning-item">
+                    <span class="type">f. Mec.</span>
+                    <p class="definition-text">Capacidad de una máquina o sistema para producir resultados consistentes
+                        y cercanos al valor deseado bajo condiciones idénticas.</p>
+                </div>
+                <div class="meaning-item">
+                    <span class="type">f. Tecnol.</span>
+                    <p class="definition-text">Ajuste riguroso de las piezas y mecanismos de un aparato para que
+                        funcione con exactitud matemática.</p>
+                </div>
+            </div>
+            <div class="etymology">
+                <p>Del latín <i>praecisio, -ōnis</i>. En nuestro taller, es el estándar absoluto de cada intervención.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <section id="servicios" class="services">
+        <div class="container">
+            <h2 class="section-title">Nuestros Servicios</h2>
+            <div class="grid-cards">
+                <div class="card">
+                    <i class="fa-solid fa-wrench"></i>
+                    <h3>Mecánica Integral</h3>
+                    <p>Diagnóstico computarizado, service oficial y reparaciones complejas con herramientas de
+                        precisión.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-gauge-high"></i>
+                    <h3>Potenciación</h3>
+                    <p>Mejoras de rendimiento, mapeo de ECU y optimización de suspensiones para pista o calle.</p>
+                </div>
+                <div class="card">
+                    <i class="fa-solid fa-oil-can"></i>
+                    <h3>Mantenimiento</h3>
+                    <p>Cambio de fluidos, filtros, transmisión y frenos utilizando insumos de primera calidad.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="banner" class="banner">
+        <h2>Tu moto en las mejores manos</h2>
+        <p>Trabajamos con todas las marcas de alta gama.</p>
+    </section>
+
+    <section id="contacto" class="contact">
+        <div class="container">
+            <h2 class="section-title">Contacto</h2>
+            <div class="contact-wrapper">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <i class="fa-solid fa-location-dot"></i>
+                        <div>
+                            <h4>Ubicación</h4>
+                            <p>Av. Libertador 1234, Buenos Aires</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fa-brands fa-whatsapp"></i>
+                        <div>
+                            <h4>WhatsApp</h4>
+                            <p>+54 11 1234-5678</p>
+                        </div>
+                    </div>
+                    <div class="info-item">
+                        <i class="fa-regular fa-envelope"></i>
+                        <div>
+                            <h4>Email</h4>
+                            <p>info@precisionmotos.com.ar</p>
+                        </div>
+                    </div>
+                </div>
+                <form class="contact-form">
+                    <input type="text" placeholder="Nombre" required>
+                    <input type="email" placeholder="Email" required>
+                    <textarea placeholder="Mensaje" rows="4" required></textarea>
+                    <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="logo-footer">PRECISION<span>MOTOS</span></div>
+            <p>&copy; 2026 Precision Motos. Todos los derechos reservados.</p>
+            <div class="socials">
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                <a href="#"><i class="fa-brands fa-facebook"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple scroll effect for navbar
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+
+            // Scroll reveal animation
+            const reveals = document.querySelectorAll('[data-reveal]');
+            reveals.forEach(reveal => {
+                const windowHeight = window.innerHeight;
+                const revealTop = reveal.getBoundingClientRect().top;
+                const revealPoint = 150;
+
+                if (revealTop < windowHeight - revealPoint) {
+                    reveal.classList.add('revealed');
+                }
+            });
+        });
+
+        // Trigger reveal on load
+        window.dispatchEvent(new Event('scroll'));
+    </script>
+</body>
+
+</html>
