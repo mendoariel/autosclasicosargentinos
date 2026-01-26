@@ -1,277 +1,195 @@
 import { useState, useEffect } from 'react';
 import Layout from '../components/Layout';
 import Link from 'next/link';
-import api from '../lib/api';
 
 export default function Home() {
-  const [stats, setStats] = useState({
-    autos: 0,
-    noticias: 0,
-    usuarios: 0,
-  });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchStats();
+    // Simular carga o fetch
+    setLoading(false);
   }, []);
-
-  const fetchStats = async () => {
-    try {
-      // Aquí podrías hacer llamadas para obtener estadísticas
-      // Por ahora, solo marcamos como cargado
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching stats:', error);
-      setLoading(false);
-    }
-  };
 
   return (
     <Layout title="Inicio">
-      <style jsx>{`
-        @keyframes pulse {
-          0%, 100% { transform: scale(1); }
-          50% { transform: scale(1.05); }
-        }
-        
-        @keyframes float {
-          0%, 100% { transform: translateY(0px); }
-          50% { transform: translateY(-10px); }
-        }
-      `}</style>
-      <div>
-        {/* Hero Section */}
+      <div style={{ paddingBottom: '4rem' }}>
+
+        {/* Full-width Hero Section */}
         <section style={{
-          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-          color: 'white',
-          padding: '4rem 2rem',
-          borderRadius: '12px',
+          position: 'relative',
+          padding: '8rem 2rem 6rem',
           textAlign: 'center',
-          marginBottom: '4rem'
+          background: 'radial-gradient(circle at top center, #1e293b 0%, #0f172a 100%)',
+          marginBottom: '4rem',
+          borderRadius: '0 0 40px 40px',
+          marginTop: '-2rem', // Offset default padding
         }}>
-          <h1 style={{ fontSize: '3rem', marginBottom: '1rem', fontWeight: 'bold' }}>
-            🚗 Autos Clásicos Argentinos
-          </h1>
-          <p style={{ fontSize: '1.3rem', marginBottom: '2rem', opacity: 0.95 }}>
-            El portal más completo para amantes de los autos clásicos
-          </p>
-          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <Link
-              href="/autos"
-              style={{
-                padding: '1rem 2rem',
-                background: 'white',
-                color: '#667eea',
-                textDecoration: 'none',
-                borderRadius: '8px',
-                fontWeight: 'bold',
-                fontSize: '1.1rem'
-              }}
-            >
-              Ver Clásicos
-            </Link>
-            <Link
-              href="/publicar"
-              style={{
-                padding: '1rem 2rem',
-                background: 'rgba(255,255,255,0.2)',
-                color: 'white',
-                textDecoration: 'none',
-                borderRadius: '8px',
-                fontWeight: 'bold',
-                fontSize: '1.1rem',
-                border: '2px solid white'
-              }}
-            >
-              Publicar tu Clásico
-            </Link>
+          <div style={{
+            position: 'absolute',
+            top: 0, left: 0, right: 0, bottom: 0,
+            background: 'url("https://images.unsplash.com/photo-1583121274602-3e2820c69888?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80")',
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: 0.2,
+            zIndex: 0,
+            borderRadius: '0 0 40px 40px',
+            maskImage: 'linear-gradient(to bottom, black 0%, transparent 100%)'
+          }}></div>
+
+          <div style={{ position: 'relative', zIndex: 1, maxWidth: '800px', margin: '0 auto' }}>
+            <span style={{
+              display: 'inline-block',
+              padding: '0.5rem 1rem',
+              background: 'rgba(212, 175, 55, 0.15)',
+              color: 'var(--pk-gold)',
+              borderRadius: '50px',
+              fontSize: '0.9rem',
+              fontWeight: 600,
+              marginBottom: '1.5rem',
+              border: '1px solid rgba(212, 175, 55, 0.3)'
+            }}>
+              ✨ El Portal Nº1 de Argentina
+            </span>
+            <h1 style={{
+              fontSize: '4rem',
+              marginBottom: '1.5rem',
+              lineHeight: 1.1,
+              background: 'linear-gradient(to bottom, #fff 0%, #cbd5e1 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent'
+            }}>
+              Preservando la Historia Sobre Ruedas
+            </h1>
+            <p style={{
+              fontSize: '1.25rem',
+              marginBottom: '3rem',
+              color: 'var(--pk-text-muted)',
+              lineHeight: 1.6
+            }}>
+              La comunidad más exclusiva para compra, venta y aseguramiento de vehículos clásicos y de colección.
+            </p>
+            <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center' }}>
+              <Link
+                href="/autos"
+                className="btn-primary"
+                style={{ fontSize: '1rem', padding: '1rem 2rem', textDecoration: 'none' }}
+              >
+                Explorar Catálogo
+              </Link>
+              <Link
+                href="/publicar"
+                style={{
+                  padding: '1rem 2rem',
+                  background: 'rgba(255,255,255,0.05)',
+                  color: 'white',
+                  textDecoration: 'none',
+                  borderRadius: '4px',
+                  fontWeight: 600,
+                  fontSize: '1rem',
+                  border: '1px solid rgba(255,255,255,0.1)',
+                  transition: 'background 0.2s'
+                }}
+              >
+                Publicar
+              </Link>
+            </div>
           </div>
         </section>
 
-        {/* Servicios */}
-        <section style={{ marginBottom: '4rem' }}>
-          <h2 style={{ fontSize: '2rem', marginBottom: '2rem', textAlign: 'center', color: '#1a1a1a' }}>
-            Nuestros Servicios
-          </h2>
+        {/* Services Grid */}
+        <div className="container">
           <div style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
             gap: '2rem'
           }}>
-            {/* Publicar Clásico */}
-            <div style={{
-              background: 'white',
-              padding: '2rem',
-              borderRadius: '12px',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-              textAlign: 'center',
-              transition: 'transform 0.2s'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-4px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-            }}
-            >
-              <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>🚗</div>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#1a1a1a' }}>
-                Publica tu Clásico
-              </h3>
-              <p style={{ color: '#666', marginBottom: '1.5rem', lineHeight: '1.6' }}>
-                Comparte tu auto clásico con la comunidad. Publica fotos, detalles y precio.
+
+            {/* Venta */}
+            <div className="glass-panel" style={{ padding: '2.5rem', borderRadius: '16px', transition: 'transform 0.2s' }}>
+              <div style={{ fontSize: '3rem', marginBottom: '1.5rem', filter: 'drop-shadow(0 0 10px rgba(255,255,255,0.2))' }}>🏎️</div>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'white' }}>Compra Venta</h3>
+              <p style={{ color: 'var(--pk-text-muted)', marginBottom: '2rem', lineHeight: '1.6' }}>
+                Encontrá la joya que buscás o dale un nuevo hogar a tu clásico. Publicaciones detalladas con fotos HD.
               </p>
-              <Link
-                href="/publicar"
-                style={{
-                  display: 'inline-block',
-                  padding: '0.75rem 1.5rem',
-                  background: '#0070f3',
-                  color: 'white',
-                  textDecoration: 'none',
-                  borderRadius: '6px',
-                  fontWeight: 'bold'
-                }}
-              >
-                Publicar →
+              <Link href="/autos" style={{ color: 'var(--pk-gold)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                Ver Vehículos <span>→</span>
               </Link>
             </div>
 
-            {/* Cotizar Seguro - Enhanced CTA */}
+            {/* Featured: Cotizador */}
             <div style={{
-              background: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
-              padding: '2.5rem',
+              background: 'linear-gradient(135deg, #B45309 0%, #78350F 100%)', // Amber/Bronze gradient
+              padding: '3px', // Border wrapper
               borderRadius: '16px',
-              boxShadow: '0 8px 24px rgba(238, 90, 36, 0.3)',
-              textAlign: 'center',
-              transition: 'all 0.3s ease',
               position: 'relative',
-              overflow: 'hidden'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-8px) scale(1.02)';
-              e.currentTarget.style.boxShadow = '0 12px 32px rgba(238, 90, 36, 0.4)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0) scale(1)';
-              e.currentTarget.style.boxShadow = '0 8px 24px rgba(238, 90, 36, 0.3)';
-            }}
-            >
-              {/* Badge de oferta */}
+              transform: 'translateY(-10px)'
+            }}>
               <div style={{
-                position: 'absolute',
-                top: '1rem',
-                right: '1rem',
-                background: '#fff',
-                color: '#ff6b6b',
-                padding: '0.5rem 1rem',
-                borderRadius: '20px',
-                fontSize: '0.8rem',
-                fontWeight: 'bold',
-                animation: 'pulse 2s infinite'
+                background: '#1a120b',
+                height: '100%',
+                borderRadius: '14px',
+                padding: '2.5rem',
+                position: 'relative',
+                overflow: 'hidden'
               }}>
-                🔥 COTIZACIÓN GRATIS
+                <div style={{
+                  position: 'absolute',
+                  top: '1rem',
+                  right: '1rem',
+                  background: 'var(--pk-gold)',
+                  color: '#000',
+                  padding: '0.25rem 0.75rem',
+                  borderRadius: '20px',
+                  fontSize: '0.75rem',
+                  fontWeight: 800
+                }}>
+                  DESTACADO
+                </div>
+
+                <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>🛡️</div>
+                <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'white' }}>Seguros Especializados</h3>
+                <p style={{ color: '#d6d3d1', marginBottom: '2rem', lineHeight: '1.6' }}>
+                  No asegures tu clásico como un auto común. Obtené una cobertura a medida con tasación real de mercado.
+                </p>
+                <Link
+                  href="/cotizar"
+                  className="btn-primary"
+                  style={{ display: 'block', textAlign: 'center', textDecoration: 'none' }}
+                >
+                  Cotizar Ahora
+                </Link>
               </div>
-              
-              <div style={{ fontSize: '4rem', marginBottom: '1rem', animation: 'float 3s ease-in-out infinite' }}>🛡️</div>
-              <h3 style={{ fontSize: '1.8rem', marginBottom: '1rem', color: 'white', fontWeight: 'bold' }}>
-                Protege tu Clásico
-              </h3>
-              <p style={{ color: 'rgba(255,255,255,0.9)', marginBottom: '1.5rem', lineHeight: '1.6', fontSize: '1.1rem' }}>
-                💎 Cobertura especializada para autos clásicos<br/>
-                🚀 Cotización en menos de 60 segundos<br/>
-                💰 Ahorra hasta 30% en tu póliza
-              </p>
-              
-              {/* Features rápidas */}
-              <div style={{
-                display: 'flex',
-                justifyContent: 'center',
-                gap: '2rem',
-                marginBottom: '2rem',
-                flexWrap: 'wrap'
-              }}>
-                <div style={{ color: 'white', fontSize: '0.9rem' }}>
-                  <div style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>⚡</div>
-                  <div>Instantáneo</div>
-                </div>
-                <div style={{ color: 'white', fontSize: '0.9rem' }}>
-                  <div style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>🎯</div>
-                  <div>Personalizado</div>
-                </div>
-                <div style={{ color: 'white', fontSize: '0.9rem' }}>
-                  <div style={{ fontSize: '1.5rem', marginBottom: '0.25rem' }}>🏆</div>
-                  <div>Mejor Precio</div>
-                </div>
-              </div>
-              
-              <Link
-                href="/cotizar"
-                style={{
-                  display: 'inline-block',
-                  padding: '1rem 2.5rem',
-                  background: 'white',
-                  color: '#ff6b6b',
-                  textDecoration: 'none',
-                  borderRadius: '50px',
-                  fontWeight: 'bold',
-                  fontSize: '1.2rem',
-                  transition: 'all 0.3s ease',
-                  boxShadow: '0 4px 16px rgba(255,255,255,0.3)'
-                }}
-                onMouseEnter={(e) => {
-                  e.currentTarget.style.transform = 'scale(1.05)';
-                  e.currentTarget.style.boxShadow = '0 6px 20px rgba(255,255,255,0.4)';
-                }}
-                onMouseLeave={(e) => {
-                  e.currentTarget.style.transform = 'scale(1)';
-                  e.currentTarget.style.boxShadow = '0 4px 16px rgba(255,255,255,0.3)';
-                }}
-              >
-                🚗 COTIZAR AHORA →
-              </Link>
             </div>
 
             {/* Noticias */}
-            <div style={{
-              background: 'white',
-              padding: '2rem',
-              borderRadius: '12px',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.1)',
-              textAlign: 'center',
-              transition: 'transform 0.2s'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.transform = 'translateY(-4px)';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.transform = 'translateY(0)';
-            }}
-            >
-              <div style={{ fontSize: '4rem', marginBottom: '1rem' }}>📰</div>
-              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: '#1a1a1a' }}>
-                Noticias Diarias
-              </h3>
-              <p style={{ color: '#666', marginBottom: '1.5rem', lineHeight: '1.6' }}>
-                Noticias generadas por IA sobre autos clásicos argentinos. Actualizadas diariamente.
+            <div className="glass-panel" style={{ padding: '2.5rem', borderRadius: '16px' }}>
+              <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>📰</div>
+              <h3 style={{ fontSize: '1.5rem', marginBottom: '1rem', color: 'white' }}>Noticias IA</h3>
+              <p style={{ color: 'var(--pk-text-muted)', marginBottom: '2rem', lineHeight: '1.6' }}>
+                Mantenete al día con resúmenes diarios generados por inteligencia artificial sobre el mundo motor.
               </p>
-              <Link
-                href="/noticias"
-                style={{
-                  display: 'inline-block',
-                  padding: '0.75rem 1.5rem',
-                  background: '#0070f3',
-                  color: 'white',
-                  textDecoration: 'none',
-                  borderRadius: '6px',
-                  fontWeight: 'bold'
-                }}
-              >
-                Ver Noticias →
+              <Link href="/noticias" style={{ color: 'var(--pk-gold)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                Leer Novedades <span>→</span>
               </Link>
             </div>
+
+          </div>
+        </div>
+
+        {/* Trust Section */}
+        <section className="container" style={{ marginTop: '6rem', textAlign: 'center' }}>
+          <h3 style={{ color: 'var(--pk-text-muted)', fontSize: '0.9rem', letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '2rem' }}>
+            Confían en nosotros
+          </h3>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', opacity: 0.4, filter: 'grayscale(100%)' }}>
+            {/* Placeholders for logos */}
+            <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>MERCADO</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>CLASSIC</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>INSURE</div>
+            <div style={{ fontSize: '1.5rem', fontWeight: 800 }}>MOTORS</div>
           </div>
         </section>
+
       </div>
     </Layout>
   );

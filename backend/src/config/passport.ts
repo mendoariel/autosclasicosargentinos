@@ -12,6 +12,19 @@ export const jwtStrategy = new JwtStrategy(
   jwtOptions,
   async (req: Request, payload: any, done: any) => {
     try {
+      // Hardcoded Advisor Check for MVP
+      if (payload.userId === 99999 && payload.role === 'asesor') {
+        const advisorUser = {
+          id: 99999,
+          email: 'mendoariel@gmail.com',
+          nombre: 'Araceli',
+          apellido: 'Frazeto',
+          telefono: '2615597977',
+          role: 'asesor'
+        };
+        return done(null, advisorUser);
+      }
+
       const user = await prisma.user.findUnique({
         where: { id: payload.userId },
         select: {

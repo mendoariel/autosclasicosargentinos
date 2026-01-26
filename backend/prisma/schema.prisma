@@ -8,40 +8,40 @@ datasource db {
 }
 
 model User {
-  id          Int       @id @default(autoincrement())
-  email       String    @unique
-  password    String
-  nombre      String
-  apellido    String
-  telefono    String?
-  autos       Auto[]
+  id           Int          @id @default(autoincrement())
+  email        String       @unique
+  password     String
+  nombre       String
+  apellido     String
+  telefono     String?
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  autos        Auto[]
   cotizaciones Cotizacion[]
-  noticias    Noticia[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  noticias     Noticia[]
 
   @@map("users")
 }
 
 model Auto {
-  id          Int       @id @default(autoincrement())
-  userId      Int
-  marca       String
-  modelo      String
-  ano         Int       @map("año")
-  kilometraje Int?
-  descripcion String?   @db.Text
-  precio      Float?
-  color       String?
-  combustible String?
-  imagenUrl   String?
-  estado      String    @default("activo")
-  imagenes    String[]
-  user        User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id           Int          @id @default(autoincrement())
+  userId       Int
+  marca        String
+  modelo       String
+  ano          Int          @map("año")
+  kilometraje  Int?
+  descripcion  String?
+  precio       Float?
+  color        String?
+  combustible  String?
+  imagenUrl    String?
+  estado       String       @default("activo")
+  imagenes     String[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  user         User         @relation(fields: [userId], references: [id], onDelete: Cascade)
   cotizaciones Cotizacion[]
-  noticias    Noticia[]
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  noticias     Noticia[]
 
   @@index([userId])
   @@index([marca, modelo])
@@ -50,87 +50,78 @@ model Auto {
 }
 
 model Cotizacion {
-  id            Int      @id @default(autoincrement())
-  userId        Int?
-  autoId        Int?
-  marca         String?
-  modelo        String?
-  ano           Int?
-  tipoSeguro    String?
-  cobertura     String?
+  id             Int      @id @default(autoincrement())
+  userId         Int?
+  autoId         Int?
+  marca          String?
+  modelo         String?
+  ano            Int?
+  tipoSeguro     String?
+  cobertura      String?
   valorAsegurado Float
-  primaMensual  Float
-  primaAnual    Float?
-  uso           String?
-  estado        String   @default("pendiente")
-  user          User?    @relation(fields: [userId], references: [id])
-  auto          Auto?    @relation(fields: [autoId], references: [id])
-  createdAt     DateTime @default(now())
+  primaMensual   Float
+  primaAnual     Float?
+  uso            String?
+  estado         String   @default("pendiente")
+  createdAt      DateTime @default(now())
+  auto           Auto?    @relation(fields: [autoId], references: [id])
+  user           User?    @relation(fields: [userId], references: [id])
 
   @@index([userId])
   @@map("cotizaciones")
 }
 
 model Noticia {
-  id          Int      @id @default(autoincrement())
-  titulo      String
-  contenido   String   @db.Text
-  resumen     String?  @db.Text
-  autoId      Int?
-  auto        Auto?    @relation(fields: [autoId], references: [id])
-  userId      Int?
-  user        User?    @relation(fields: [userId], references: [id])
-  imagenUrl   String?
-  tags        String[]
-  publicado   Boolean  @default(true)
+  id               Int      @id @default(autoincrement())
+  titulo           String
+  contenido        String
+  resumen          String?
+  autoId           Int?
+  userId           Int?
+  imagenUrl        String?
+  tags             String[]
+  publicado        Boolean  @default(true)
   fechaPublicacion DateTime @default(now())
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+  auto             Auto?    @relation(fields: [autoId], references: [id])
+  user             User?    @relation(fields: [userId], references: [id])
 
   @@index([fechaPublicacion])
   @@index([publicado])
   @@map("noticias")
 }
 
-model QuoteAttempt {
-  id            Int      @id @default(autoincrement())
-  tipoVehiculo  String
+model SolicitudSeguro {
+  id            Int             @id @default(autoincrement())
+  clienteNombre String?
+  tipoVehiculo  String          @default("auto")
   marca         String
   modelo        String
   ano           Int
   whatsapp      String
-  dominio       String?
-  uso           String?
-  valor         String?
-  status        String   @default("pending")
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
-  solicitudes   SolicitudDocumentacion[]
+  tokenAsesor   String          @unique @default(uuid())
+  tokenCliente  String          @unique @default(uuid())
+  estado        EstadoSolicitud @default(NUEVA)
+  fotos         String[]
+  observaciones String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  chasis        String?
+  motor         String?
+  patente       String?
 
-  @@index([status])
-  @@index([whatsapp])
-  @@map("quote_attempts")
+  @@index([tokenAsesor])
+  @@index([tokenCliente])
+  @@index([estado])
+  @@map("solicitudes_seguro")
 }
 
-model SolicitudDocumentacion {
-  id                   Int      @id @default(autoincrement())
-  quoteAttemptId       Int      @map("quote_attempt_id")
-  imagenTarjetaVerdeFrente String? @map("imagen_tarjeta_verde_frente")
-  imagenTarjetaVerdeDorso   String? @map("imagen_tarjeta_verde_dorso")
-  imagenVehiculoFecha       String? @map("imagen_vehiculo_fecha")
-  imagenCarnetConducir       String? @map("imagen_carnet_conducir")
-  patente              String?
-  numeroMotor          String?  @map("numero_motor")
-  numeroChasis         String?  @map("numero_chasis")
-  dominio              String?
-  status               String   @default("pendiente")
-  observaciones        String?  @db.Text
-  createdAt            DateTime @default(now())
-  updatedAt            DateTime @updatedAt
-  quoteAttempt         QuoteAttempt @relation(fields: [quoteAttemptId], references: [id], onDelete: Cascade)
-
-  @@index([status])
-  @@index([quoteAttemptId])
-  @@map("solicitud_documentacion")
+enum EstadoSolicitud {
+  NUEVA
+  VISTA_POR_ASESOR
+  FOTOS_SOLICITADAS
+  FOTOS_SUBIDAS
+  COTIZADO
+  CERRADA
 }
-

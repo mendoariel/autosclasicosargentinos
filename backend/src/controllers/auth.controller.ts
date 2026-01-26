@@ -78,6 +78,28 @@ export const login = async (req: Request, res: Response) => {
       where: { email },
     });
 
+    // Hardcoded Advisor Check (MVP)
+    if (email === 'mendoariel@gmail.com' && password === 'Casadesara1') {
+      const token = generateToken({
+        userId: 99999, // ID reservado para admin/asesor
+        email: email,
+        role: 'asesor'
+      });
+
+      return res.json({
+        message: 'Login exitoso (Asesor)',
+        user: {
+          id: 99999,
+          email: email,
+          nombre: 'Araceli',
+          apellido: 'Frazeto',
+          telefono: '2615597977',
+          role: 'asesor'
+        },
+        token,
+      });
+    }
+
     if (!user) {
       return res.status(401).json({ error: 'Credenciales inválidas' });
     }

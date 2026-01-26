@@ -14,6 +14,10 @@ RUN apt-get update && apt-get install -y \
 COPY package*.json ./
 RUN npm install
 
+# Copiar schema de Prisma y generar cliente
+COPY prisma ./prisma
+RUN npx prisma generate
+
 # Copiar código (se monta como volumen en dev)
 COPY . .
 

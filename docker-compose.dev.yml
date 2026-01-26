@@ -17,7 +17,7 @@ services:
     networks:
       - dev
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U dev"]
+      test: [ "CMD-SHELL", "pg_isready -U dev -d autosclasicos" ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -39,6 +39,14 @@ services:
       DATABASE_URL: postgresql://dev:dev123@postgres:5432/autosclasicos
       JWT_SECRET: dev-secret-key-change-in-production
       UPLOAD_DIR: /app/uploads
+      # Email Configuration
+      EMAIL_HOST: smtp-mail.outlook.com
+      EMAIL_PORT: 587
+      EMAIL_USER: info@peludosclick.com
+      EMAIL_PASS: Yamaha600
+      EMAIL_FROM: info@peludosclick.com
+      ADVISOR_EMAIL: mendoariel@gmail.com
+      FRONTEND_URL: http://localhost:3000
     depends_on:
       postgres:
         condition: service_healthy
@@ -70,4 +78,3 @@ services:
 networks:
   dev:
     driver: bridge
-

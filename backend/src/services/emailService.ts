@@ -2,12 +2,12 @@ import nodemailer from 'nodemailer';
 
 // Configuración del transporter para Outlook
 const transporter = nodemailer.createTransport({
-  host: 'smtp-mail.outlook.com',
-  port: 587,
+  host: process.env.EMAIL_HOST || 'smtp-mail.outlook.com',
+  port: parseInt(process.env.EMAIL_PORT || '587'),
   secure: false, // TLS
   auth: {
-    user: 'info@peludosclick.com',
-    pass: 'Yamaha600'
+    user: process.env.EMAIL_USER,
+    pass: process.env.EMAIL_PASS
   }
 });
 
@@ -20,90 +20,115 @@ export interface EmailData {
 export const sendEmail = async (emailData: EmailData): Promise<boolean> => {
   try {
     const mailOptions = {
-      from: 'info@peludosclick.com',
+      from: process.env.EMAIL_FROM || 'info@peludosclick.com',
       to: emailData.to,
       subject: emailData.subject,
       html: emailData.html
     };
 
     await transporter.sendMail(mailOptions);
-    console.log('Email enviado exitosamente a:', emailData.to);
+    console.log('✅ Email enviado exitosamente a:', emailData.to);
     return true;
   } catch (error) {
-    console.error('Error al enviar email:', error);
+    console.error('❌ Error al enviar email:', error);
     return false;
   }
 };
 
-export const generateQuoteEmail = (quoteData: any) => {
-  const whatsappMessage = `🚗 *NUEVA COTIZACIÓN - AUTOS CLÁSICOS*\n\n` +
-    `📋 *Datos del Vehículo:*\n` +
-    `Tipo: ${quoteData.tipoVehiculo}\n` +
-    `Marca: ${quoteData.marca}\n` +
-    `Modelo: ${quoteData.modelo}\n` +
-    `Año: ${quoteData.ano}\n\n` +
-    `📱 *Contacto del Cliente:*\n` +
-    `WhatsApp: ${quoteData.whatsapp}\n\n` +
-    `🔗 *Link para que el cliente complete información:*\n` +
-    `${process.env.FRONTEND_URL || 'http://localhost:3000'}/completar-cotizacion/${quoteData.id}\n\n` +
-    `📞 *Por favor, contacta al cliente para continuar con la cotización.*`;
+export const generateSolicitudEmail = (solicitud: any) => {
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  const asesorLink = `${frontendUrl}/asesor/${solicitud.tokenAsesor}`;
+  const clienteLink = `${frontendUrl}/cotizacion/${solicitud.tokenCliente}`;
+
+  const whatsappMessage =
+    `Hola ${solicitud.clienteNombre || ''}! 👋\n` +
+    `Vi tu pedido de cotización para el *${solicitud.marca} ${solicitud.modelo} ${solicitud.ano}*.\n\n` +
+    `Para darte el mejor precio, necesito que subas unas fotos del auto en este link seguro:\n` +
+    `${clienteLink}\n\n` +
+    `Cualquier duda decime!`;
 
   const htmlContent = `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-      <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 30px; border-radius: 10px; text-align: center; margin-bottom: 30px;">
-        <h1 style="margin: 0; font-size: 2rem;">🚗 NUEVA COTIZACIÓN</h1>
-        <p style="margin: 10px 0 0 0; font-size: 1.2rem;">Autos Clásicos Argentinos</p>
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+      <div style="background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); color: white; padding: 40px 30px; text-align: center; border-radius: 12px 12px 0 0;">
+        <h1 style="margin: 0; font-size: 24px; font-weight: 600;">Nueva Solicitud Recibida 🚀</h1>
+        <p style="margin: 10px 0 0 0; opacity: 0.9;">Un cliente espera tu cotización</p>
       </div>
       
-      <div style="background: #f8f9fa; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
-        <h2 style="color: #333; margin-top: 0;">📋 Datos del Vehículo</h2>
-        <table style="width: 100%; border-collapse: collapse;">
-          <tr>
-            <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Tipo:</strong></td>
-            <td style="padding: 10px; border-bottom: 1px solid #ddd;">${quoteData.tipoVehiculo}</td>
-          </tr>
-          <tr>
-            <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Marca:</strong></td>
-            <td style="padding: 10px; border-bottom: 1px solid #ddd;">${quoteData.marca}</td>
-          </tr>
-          <tr>
-            <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Modelo:</strong></td>
-            <td style="padding: 10px; border-bottom: 1px solid #ddd;">${quoteData.modelo}</td>
-          </tr>
-          <tr>
-            <td style="padding: 10px; border-bottom: 1px solid #ddd;"><strong>Año:</strong></td>
-            <td style="padding: 10px; border-bottom: 1px solid #ddd;">${quoteData.ano}</td>
-          </tr>
-        </table>
-      </div>
-      
-      <div style="background: #e8f5e8; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
-        <h2 style="color: #333; margin-top: 0;">📱 Contacto del Cliente</h2>
-        <p style="font-size: 1.1rem; margin: 10px 0;"><strong>WhatsApp:</strong> ${quoteData.whatsapp}</p>
-        <p style="margin: 15px 0;">Puedes enviarle este mensaje por WhatsApp:</p>
-        <div style="background: white; padding: 15px; border-radius: 5px; border-left: 4px solid #25D366;">
-          <pre style="margin: 0; white-space: pre-wrap; font-family: monospace; font-size: 0.9rem;">${whatsappMessage}</pre>
+      <div style="background: #ffffff; padding: 30px; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 12px 12px;">
+        
+        <div style="margin-bottom: 30px;">
+          <h2 style="font-size: 18px; color: #1e293b; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">🚗 Vehículo</h2>
+          <table style="width: 100%; font-size: 15px;">
+            <tr><td style="padding: 5px 0; color: #64748b; width: 100px;">Vehículo:</td><td style="font-weight: 500;">${solicitud.marca} ${solicitud.modelo}</td></tr>
+            <tr><td style="padding: 5px 0; color: #64748b;">Año:</td><td style="font-weight: 500;">${solicitud.ano}</td></tr>
+            <tr><td style="padding: 5px 0; color: #64748b;">Cliente:</td><td style="font-weight: 500;">${solicitud.clienteNombre || 'No especificado'}</td></tr>
+          </table>
         </div>
-      </div>
-      
-      <div style="background: #fff3cd; padding: 25px; border-radius: 10px; margin-bottom: 25px;">
-        <h2 style="color: #333; margin-top: 0;">🔗 Link para el Cliente</h2>
-        <p style="margin: 10px 0;">El cliente puede completar su información aquí:</p>
-        <a href="${process.env.FRONTEND_URL || 'http://localhost:3000'}/completar-cotizacion/${quoteData.id}" 
-           style="display: inline-block; background: #007bff; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">
-          Completar Cotización
-        </a>
-      </div>
-      
-      <div style="text-align: center; padding: 20px; background: #f1f3f4; border-radius: 10px;">
-        <p style="margin: 0; color: #666;">📞 Por favor, contacta al cliente a la brevedad para continuar con el proceso de cotización.</p>
+
+        <div style="margin-bottom: 30px;">
+          <h2 style="font-size: 18px; color: #1e293b; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">📱 Acción Rápida</h2>
+          <p style="margin-bottom: 15px;">1. Accede a tu panel para ver detalles y contactar:</p>
+          <a href="${asesorLink}" style="display: block; width: 100%; text-align: center; background: #2563eb; color: white; padding: 14px 0; border-radius: 8px; text-decoration: none; font-weight: 600; margin-bottom: 20px;">
+            Abrir Panel del Asesor
+          </a>
+
+          <p style="margin-bottom: 15px;">2. O envíale este mensaje directo por WhatsApp:</p>
+          <div style="background: #f0fdf4; border: 1px solid #dcfce7; padding: 15px; border-radius: 8px; font-size: 14px; color: #166534;">
+            ${whatsappMessage.replace(/\n/g, '<br>')}
+            <br><br>
+            <a href="https://wa.me/${solicitud.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(whatsappMessage)}" 
+               style="display: inline-block; margin-top: 10px; color: #16a34a; font-weight: 600; text-decoration: none;">
+               👉 Click para enviar WhatsApp
+            </a>
+          </div>
+        </div>
+
+        <p style="font-size: 13px; color: #94a3b8; text-align: center; margin-top: 40px;">
+          Este link es mágico y único para esta gestión. No requiere contraseña.
+        </p>
       </div>
     </div>
   `;
 
   return {
-    to: 'mendoariel@gmail.com',
-    subject: `🚗 Nueva Cotización - ${quoteData.marca} ${quoteData.modelo} ${quoteData.ano}`,
+    to: process.env.ADVISOR_EMAIL || 'mendoariel@gmail.com',
+    subject: `Nueva Solicitud: ${solicitud.marca} ${solicitud.modelo} (${solicitud.ano})`,
+    html: htmlContent
+  };
+};
+
+export const generatePhotosUploadedEmail = (solicitud: any) => {
+  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  const asesorLink = `${frontendUrl}/asesor/${solicitud.tokenAsesor}`;
+
+  const htmlContent = `
+    <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; color: #333;">
+      <div style="background: linear-gradient(135deg, #166534 0%, #15803d 100%); color: white; padding: 40px 30px; text-align: center; border-radius: 12px 12px 0 0;">
+        <h1 style="margin: 0; font-size: 24px; font-weight: 600;">¡Fotos Recibidas! 📸</h1>
+        <p style="margin: 10px 0 0 0; opacity: 0.9;">El cliente ha subido documentación</p>
+      </div>
+      
+      <div style="background: #ffffff; padding: 30px; border: 1px solid #e2e8f0; border-top: none; border-radius: 0 0 12px 12px;">
+        
+        <div style="margin-bottom: 30px;">
+          <h2 style="font-size: 18px; color: #1e293b; margin-bottom: 15px; border-bottom: 2px solid #f1f5f9; padding-bottom: 10px;">🚗 Detalles</h2>
+           <p><strong>Cliente:</strong> ${solicitud.clienteNombre}</p>
+           <p><strong>Vehículo:</strong> ${solicitud.marca} ${solicitud.modelo}</p>
+           <p><strong>Estado:</strong> ${solicitud.fotos.length} fotos subidas</p>
+        </div>
+
+        <div style="margin-bottom: 30px;">
+          <a href="${asesorLink}" style="display: block; width: 100%; text-align: center; background: #2563eb; color: white; padding: 14px 0; border-radius: 8px; text-decoration: none; font-weight: 600; margin-bottom: 20px;">
+            Ver Fotos y Cotizar
+          </a>
+        </div>
+      </div>
+    </div>
+  `;
+
+  return {
+    to: process.env.ADVISOR_EMAIL || 'mendoariel@gmail.com',
+    subject: `📸 Fotos recibidas: ${solicitud.clienteNombre} - ${solicitud.marca}`,
     html: htmlContent
   };
 };

@@ -49,13 +49,9 @@ app.use('/api/cotizaciones', cotizacionesRoutes);
 import noticiasRoutes from './routes/noticias.routes';
 app.use('/api/noticias', noticiasRoutes);
 
-// Quote attempts routes
-import quoteAttemptsRoutes from './routes/quote-attempts.routes';
-app.use('/api/quote-attempts', quoteAttemptsRoutes);
-
-// Solicitud documentacion routes
-import solicitudDocumentacionRoutes from './routes/solicitud-documentacion.routes';
-app.use('/api/solicitud-documentacion', solicitudDocumentacionRoutes);
+// Solicitudes routes (New Flow)
+import solicitudesRoutes from './routes/solicitudes.routes';
+app.use('/api/solicitudes', solicitudesRoutes);
 
 // Start server
 app.listen(PORT, () => {

@@ -1,3 +1,23 @@
+:root {
+  /* Premium Palette */
+  --pk-gold: #D4AF37;
+  --pk-gold-light: #F4C430;
+  --pk-navy: #0F172A;
+  --pk-navy-light: #1E293B;
+  --pk-glass: rgba(255, 255, 255, 0.05);
+  --pk-glass-border: rgba(255, 255, 255, 0.1);
+  --pk-text-muted: #94A3B8;
+  --pk-white: #F8FAFC;
+
+  /* Gradients */
+  --grad-premium: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  --grad-gold: linear-gradient(135deg, #D4AF37 0%, #AA8C2C 100%);
+
+  /* Animations */
+  --transition-fast: 0.2s ease;
+  --transition-smooth: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -8,20 +28,75 @@ html,
 body {
   max-width: 100vw;
   overflow-x: hidden;
+  background-color: var(--pk-navy);
+  color: var(--pk-white);
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Playfair Display', serif;
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+  transition: var(--transition-fast);
 }
 
+button {
+  font-family: 'Inter', sans-serif;
+}
 
+/* Utilities */
+.glass-panel {
+  background: var(--pk-glass);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--pk-glass-border);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
 
+.text-gradient-gold {
+  background: linear-gradient(to right, #F4C430, #D4AF37, #AA8C2C);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.btn-primary {
+  background: var(--pk-gold);
+  color: var(--pk-navy);
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition-fast);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.9rem;
+}
+
+.btn-primary:hover {
+  background: var(--pk-gold-light);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1.5rem;
+}

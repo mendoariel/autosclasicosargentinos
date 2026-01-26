@@ -1,9 +1,20 @@
 import OpenAI from 'openai';
 import { prisma } from '../utils/prisma';
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
+// Lazy initialization to prevent crashes when API key is not set
+let openai: OpenAI | null = null;
+
+const getOpenAIClient = () => {
+  if (!openai) {
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error('OPENAI_API_KEY no está configurada');
+    }
+    openai = new OpenAI({
+      apiKey: process.env.OPENAI_API_KEY,
+    });
+  }
+  return openai;
+};
 
 export const generarNoticia = async (autoId?: number) => {
   try {
@@ -62,8 +73,9 @@ Formato de respuesta JSON:
     }
 
     const model = process.env.OPENAI_MODEL || 'gpt-4o-mini';
+    const client = getOpenAIClient();
 
-    const completion = await openai.chat.completions.create({
+    const completion = await client.chat.completions.create({
       model: model,
       messages: [
         {

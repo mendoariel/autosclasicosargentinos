@@ -92,7 +92,7 @@ export const getCotizaciones = async (req: Request, res: Response) => {
 
     const cotizaciones = await prisma.cotizacion.findMany({
       where: {
-        usuarioId: req.user.id,
+        userId: req.user.id,
       },
       orderBy: {
         createdAt: 'desc',
