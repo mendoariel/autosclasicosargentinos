@@ -264,3 +264,23 @@ export const debugEmail = async (req: Request, res: Response) => {
         res.status(500).json({ error: 'Internal debug error', details: error });
     }
 };
+
+export const debugDb = async (req: Request, res: Response) => {
+    try {
+        await prisma.$connect();
+        const count = await prisma.solicitudSeguro.count();
+        res.json({
+            success: true,
+            message: 'Database connection successful',
+            table: 'solicitudSeguro',
+            count
+        });
+    } catch (error: any) {
+        res.status(500).json({
+            success: false,
+            error: 'Database connection failed',
+            details: error.message,
+            stack: error.stack
+        });
+    }
+};

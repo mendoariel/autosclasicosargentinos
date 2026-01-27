@@ -14,6 +14,7 @@ const upload = multer({
 
 // Public Routes
 router.get('/debug/email', solicitudesController.debugEmail); // Temporary debug route
+router.get('/debug/db', solicitudesController.debugDb); // Temporary DB debug route
 router.post('/', solicitudesController.createSolicitud);
 router.get('/asesor/:token', solicitudesController.getSolicitudByAsesorToken);
 router.get('/cliente/:token', solicitudesController.getSolicitudByClienteToken);
