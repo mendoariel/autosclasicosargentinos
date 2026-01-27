@@ -1,0 +1,32 @@
+# COMANDOS PARA CREAR USUARIO ALBERTO EN PRODUCCIÓN
+# Copia y pega estos comandos en tu terminal del servidor
+
+# 1. Conectarse a la base de datos directamente y crear el usuario
+docker exec -it autosclasicos-db psql -U postgres -d autosclasicos_db -c "
+INSERT INTO users (email, password, name, role, phone, created_at, updated_at) 
+VALUES (
+    'mendoariel@hotmail.com', 
+    '\$2b\$10\$VLJSETFRZfYHY0zGJTOdPeLesOdWKMoWb2crzrixoMK.HX5Dodslm', 
+    'Albert', 
+    'asesor',
+    '2615597977',
+    NOW(), 
+    NOW()
+) ON CONFLICT (email) DO UPDATE SET
+    password = '\$2b\$10\$VLJSETFRZfYHY0zGJTOdPeLesOdWKMoWb2crzrixoMK.HX5Dodslm',
+    name = 'Albert',
+    role = 'asesor',
+    phone = '2615597977',
+    updated_at = NOW();
+"
+
+# 2. Verificar que el usuario fue creado
+docker exec -it autosclasicos-db psql -U postgres -d autosclasicos_db -c "SELECT email, name, role, phone, created_at FROM users WHERE email = 'mendoariel@hotmail.com';"
+
+# 3. Reiniciar el backend por si acaso
+docker restart autosclasicos-backend
+
+echo "✅ Usuario Alberto creado exitosamente!"
+echo "📧 Email: mendoariel@hotmail.com"
+echo "🔐 Contraseña: Casadesara1"
+echo "🌐 Login: https://autosclasicosargentinos.com.ar/login"
