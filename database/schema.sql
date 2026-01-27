@@ -91,3 +91,28 @@ CREATE TABLE IF NOT EXISTS "solicitudes_seguro" (
 CREATE INDEX IF NOT EXISTS "solicitudes_seguro_tokenAsesor_idx" ON "solicitudes_seguro"("tokenAsesor");
 CREATE INDEX IF NOT EXISTS "solicitudes_seguro_tokenCliente_idx" ON "solicitudes_seguro"("tokenCliente");
 CREATE INDEX IF NOT EXISTS "solicitudes_seguro_estado_idx" ON "solicitudes_seguro"("estado");
+
+-- Insertar usuarios asesores (IDs fijos para compatibilidad con auth.controller.ts)
+INSERT INTO "users" ("id", "email", "password", "nombre", "apellido", "telefono", "createdAt", "updatedAt")
+VALUES (
+    99999,
+    'mendoariel@gmail.com',
+    '$2b$10$09.R2R6bR0dwOj/7xPPbiOhKN7KZg/QFeqvVq6xCFHEORZlztrB7.',
+    'Alberto',
+    'Arce',
+    '2615597977',
+    CURRENT_TIMESTAMP,
+    CURRENT_TIMESTAMP
+) ON CONFLICT ("email") DO NOTHING;
+
+INSERT INTO "users" ("id", "email", "password", "nombre", "apellido", "telefono", "createdAt", "updatedAt")
+VALUES (
+    99998,
+    'mariadelpilarasesor@gmail.com',
+    '$2b$10$09.R2R6bR0dwOj/7xPPbiOhKN7KZg/QFeqvVq6xCFHEORZlztrB7.',
+    'Maria',
+    'Del Pilar',
+    '2617458765',
+    CURRENT_TIMESTAMP,
+    CURRENT_TIMESTAMP
+) ON CONFLICT ("email") DO NOTHING;
