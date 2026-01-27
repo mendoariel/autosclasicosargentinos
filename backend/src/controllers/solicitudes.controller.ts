@@ -147,37 +147,17 @@ export const uploadFotos = async (req: Request, res: Response) => {
         const f3 = processPhotoSlot('pruebaVida', files?.['pruebaVida'], body.existing_pruebaVida);
         if (f3) fotosArray[3] = f3;
 
-        // Ensure array is compact or filled? 
-        // We will store it as is, but filter nulls if we want compact, OR 
-        // to maintain index integrity for "view mode", we should probably populate the array fully up to the max index used.
-        // However, Prisma String[] is just a list. 
-        // Let's filter out empty strings/nulls for now, OR better yet:
-        // The current View Mode renders by iterating. If we want strict slots, we should store them.
-        // BUT, the current Schema is just string[]. 
-        // To be safe and backward compatible with "view mode" iterating:
-        // We will push them in order. If slot 0 is missing but slot 2 is present, we might have an issue strictly mapping back.
-        // DECISION: We will push ALL, even if empty? No, standard array.
-        // REVISION: The only way to guarantee "Slot 2 is Carnet" is to ALWAYS save 4 strings, even if some are empty placeholder strings?
-        // OR better: Just save the valid ones. When loading back, we guess the slots based on count? No that's fragile.
-        // GIVEN THE CONSTRAINTS: We will just save the valid URLs. 
-        // The View Mode in Frontend attempts to map them to slots 1, 2, 3... 
-        // Wait, if I upload only "PruebaVida" (Slot 3), and save it... 
-        // If I save just `[url_prueba_vida]`, next time I load it, it will show up as `foto_1` (Cedula Frente).
-        // This is a limitation of the current Schema. 
-        // WORKAROUND: I will save placeholders for empty slots if there are later slots filled? 
-        // No, that messes up the display.
-        // ACCEPTABLE COMPROMISE for 'Improving UX':
-        // We will assume users typically upload all 4.
-        // If they assume "Slot editing", we really need to know which is which.
-        // Since I cannot change schema easily (migrations etc), I will try to infer or just live with the sequential mapping 
-        // UNLESS request includes ALL current photos.
-        // The Frontend WILL send existing URLs for all slots that have them.
-        // So if I have 4 photos, and I change #3, Frontend sends: existing_0, existing_1, FILE_2, existing_3.
-        // So I will rebuild the array of 4 items.
-        // If a slot is empty, I can't put a null in a String[] (usually).
-        // I will filter `Boolean` but this means we lose position if early ones are missing.
-        // BUT: The user has to upload "Documentacion requerida". 
-        // Let's just save the non-nulls.
+        // NEW: Handle generic 'fotos' (e.g. from Cotizar page)
+        const genericFotos = files?.['fotos'];
+        if (genericFotos && genericFotos.length > 0) {
+            genericFotos.forEach(file => {
+                const fileName = `${Date.now()}-general-${file.originalname.replace(/\s+/g, '-')}`;
+                const filePath = path.join(UPLOAD_DIR, fileName);
+                fs.writeFileSync(filePath, file.buffer);
+                fotosArray.push(`/uploads/${fileName}`);
+            });
+        }
+
         const finalFotos = fotosArray.filter(f => f !== undefined && f !== null);
 
         const { patente, motor, chasis } = req.body;

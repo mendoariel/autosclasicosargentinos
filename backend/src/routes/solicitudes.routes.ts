@@ -20,7 +20,8 @@ router.post('/:token/fotos', upload.fields([
     { name: 'cedulaFrente', maxCount: 1 },
     { name: 'cedulaDorso', maxCount: 1 },
     { name: 'carnet', maxCount: 1 },
-    { name: 'pruebaVida', maxCount: 1 }
+    { name: 'pruebaVida', maxCount: 1 },
+    { name: 'fotos', maxCount: 5 } // Allow generic photos from initial form
 ]), solicitudesController.uploadFotos);
 
 // Protected Advisor Routes
