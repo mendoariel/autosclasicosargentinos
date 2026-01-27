@@ -162,17 +162,26 @@ export const uploadFotos = async (req: Request, res: Response) => {
 
         const { patente, motor, chasis } = req.body;
 
+        // Check if any documentation photos were uploaded
+        const hasDocPhotos = ['cedulaFrente', 'cedulaDorso', 'carnet', 'pruebaVida'].some(
+            field => files?.[field] && files[field].length > 0
+        );
+
+        const updateData: any = {
+            fotos: { set: finalFotos },
+            patente: patente || undefined,
+            motor: motor || undefined,
+            chasis: chasis || undefined
+        };
+
+        // Only upgrade status if documentation photos are present
+        if (hasDocPhotos) {
+            updateData.estado = 'FOTOS_SUBIDAS';
+        }
+
         const updatedSolicitud = await prisma.solicitudSeguro.update({
             where: { id: solicitud.id },
-            data: {
-                fotos: {
-                    set: finalFotos // Use SET to replace the array
-                },
-                estado: 'FOTOS_SUBIDAS',
-                patente: patente || undefined,
-                motor: motor || undefined,
-                chasis: chasis || undefined
-            }
+            data: updateData
         });
 
         res.json({

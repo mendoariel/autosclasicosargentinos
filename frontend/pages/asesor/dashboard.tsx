@@ -82,12 +82,10 @@ export default function AsesorDashboard() {
             const hasPhotos = s.fotos && s.fotos.length > 0;
 
             if (activeTab === 'NUEVAS') {
-                // Show as New only if it has NO photos (even if status is NUEVA)
-                return s.estado === 'NUEVA' && !hasPhotos;
+                return s.estado === 'NUEVA';
             }
             if (activeTab === 'FOTOS') {
-                // Show in Photos if status says so OR if it actually has photos
-                return s.estado === 'FOTOS_SUBIDAS' || hasPhotos;
+                return s.estado === 'FOTOS_SUBIDAS';
             }
             if (activeTab === 'HISTORIAL') return ['GANADA', 'PERDIDA'].includes(s.estado);
             return false;
