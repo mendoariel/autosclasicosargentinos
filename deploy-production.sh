@@ -36,8 +36,8 @@ echo ""
 read -p "¿Quieres subir los archivos al servidor ahora? (s/n): " -n 1 -r
 echo
 if [[ $REPLY =~ ^[Ss]$ ]]; then
-    echo "📤 Subiendo archivos al servidor..."
-    scp -r . hetzner-autosclasicos:/root/autosclasicosargentinos/ || {
+    echo "📤 Subiendo archivos al servidor (usando rsync rápido)..."
+    rsync -avz --progress --exclude 'node_modules' --exclude '.git' --exclude '.next' --exclude 'dist' --exclude 'backend/node_modules' --exclude 'backend/dist' --exclude 'frontend/node_modules' --exclude 'frontend/.next' --exclude 'data' . root@46.224.152.98:/root/autosclasicosargentinos/ || {
         echo "❌ Error al subir archivos. ¿Está configurado el SSH?"
         exit 1
     }
@@ -48,7 +48,7 @@ echo ""
 echo "🔧 Pasos siguientes en el servidor:"
 echo ""
 echo "1. Conectarse al servidor:"
-echo "   ssh hetzner-autosclasicos"
+echo "   ssh root@46.224.152.98"
 echo ""
 echo "2. Ir al directorio:"
 echo "   cd /root/autosclasicosargentinos"

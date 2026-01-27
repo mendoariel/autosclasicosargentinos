@@ -15,7 +15,13 @@ passport.use(jwtStrategy);
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:3000', 'http://127.0.0.1:3000', /^https?:\/\/(localhost|127\.0\.0\.1|.*\.ngrok\.io|.*\.vercel\.app|.*\.netlify\.app)(:\d+)?$/],
+  origin: [
+    'http://localhost:3000',
+    'http://127.0.0.1:3000',
+    'https://autosclasicosargentinos.com.ar',
+    'https://www.autosclasicosargentinos.com.ar',
+    /^https?:\/\/(localhost|127\.0\.0\.1|.*\.ngrok\.io|.*\.vercel\.app|.*\.netlify\.app)(:\d+)?$/
+  ],
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS', 'PATCH'],
   allowedHeaders: ['Content-Type', 'Authorization']

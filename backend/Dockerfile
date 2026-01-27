@@ -8,17 +8,14 @@ RUN apt-get update && apt-get install -y \
     g++ \
     && rm -rf /var/lib/apt/lists/*
 
-# Dependencies
-FROM base AS deps
+# Dependencies & Builder together to avoid copy issues
+FROM base AS builder
 WORKDIR /app
 COPY package*.json ./
 COPY prisma ./prisma/
-RUN npm ci
-
-# Builder
-FROM base AS builder
-WORKDIR /app
-COPY --from=deps /app/node_modules ./node_modules
+# Force fresh install ignoring local lockfile which might have Mac-specific bindings
+RUN rm -f package-lock.json
+RUN npm install
 COPY . .
 RUN npx prisma generate
 RUN npm run build
