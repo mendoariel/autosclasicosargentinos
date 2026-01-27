@@ -130,7 +130,7 @@ export default function SolicitudDetail() {
                             {/* Dynamic Action Button */}
                             {solicitud.fotos && solicitud.fotos.length > 0 ? (
                                 <a
-                                    href={`https://wa.me/${solicitud.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hola ${solicitud.clienteNombre}, recibí la documentación de tu ${solicitud.marca} ${solicitud.modelo} y está perfecta. ✅\n\n¿Tendrás unos minutos para coordinar la emisión de la póliza?`)}`}
+                                    href={`https://wa.me/${solicitud.whatsapp.replace(/[^0-9]/g, '')}?text=${encodeURIComponent(`Hola ${solicitud.clienteNombre}, recibí la documentación de tu ${solicitud.marca} ${solicitud.modelo} y está perfecta. ✅\n\n¿Tendrás unos minutos para coordinar la emisión de la póliza?\n\nTe dejo el link de tu trámite por si necesitás consultar algo:\n${window.location.origin}/cotizacion/${solicitud.tokenCliente}`)}`}
                                     target="_blank"
                                     rel="noreferrer"
                                     className="btn-secondary"
