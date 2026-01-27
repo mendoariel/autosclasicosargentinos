@@ -1,0 +1,45 @@
+name: Deploy to Production
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: Add host key to known_hosts
+        run: |
+          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Server via Rsync
+        run: |
+          rsync -avz --progress --exclude 'node_modules' \
+            --exclude '.git' \
+            --exclude '.next' \
+            --exclude 'dist' \
+            --exclude 'backend/node_modules' \
+            --exclude 'backend/dist' \
+            --exclude 'frontend/node_modules' \
+            --exclude 'frontend/.next' \
+            --exclude 'data' \
+            . ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/root/autosclasicosargentinos/
+
+      - name: Restart Services on Server
+        run: |
+          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} "cd /root/autosclasicosargentinos && \
+            docker compose down --remove-orphans || true && \
+            docker compose up -d --build && \
+            sleep 5 && \
+            docker exec autosclasicos-backend npx prisma generate && \
+            docker exec -i autosclasicos-db psql -U prod_user -d autosclasicos < database/schema.sql"
