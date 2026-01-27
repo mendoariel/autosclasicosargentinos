@@ -145,34 +145,41 @@ export const uploadFotos = async (req: Request, res: Response) => {
         };
 
         // Slots in order: 0=Frente, 1=Dorso, 2=Carnet, 3=PruebaVida
+        // Slots in order: 0=CarPhoto, 1=Frente, 2=Dorso, 3=Carnet, 4=PruebaVida
         const fotosArray: string[] = [];
 
-        // Slot 0: Cedula Frente
-        const f0 = processPhotoSlot('cedulaFrente', files?.['cedulaFrente'], body.existing_cedulaFrente);
-        if (f0) fotosArray[0] = f0;
-
-        // Slot 1: Cedula Dorso
-        const f1 = processPhotoSlot('cedulaDorso', files?.['cedulaDorso'], body.existing_cedulaDorso);
-        if (f1) fotosArray[1] = f1;
-
-        // Slot 2: Licencia
-        const f2 = processPhotoSlot('carnet', files?.['carnet'], body.existing_carnet);
-        if (f2) fotosArray[2] = f2;
-
-        // Slot 3: Prueba Vida
-        const f3 = processPhotoSlot('pruebaVida', files?.['pruebaVida'], body.existing_pruebaVida);
-        if (f3) fotosArray[3] = f3;
-
-        // NEW: Handle generic 'fotos' (e.g. from Cotizar page)
+        // Slot 0: Initial Car Photo
         const genericFotos = files?.['fotos'];
         if (genericFotos && genericFotos.length > 0) {
-            genericFotos.forEach(file => {
-                const fileName = `${Date.now()}-general-${file.originalname.replace(/\s+/g, '-')}`;
-                const filePath = path.join(UPLOAD_DIR, fileName);
-                fs.writeFileSync(filePath, file.buffer);
-                fotosArray.push(`/uploads/${fileName}`);
-            });
+            // New car photo uploaded
+            const file = genericFotos[0];
+            const fileName = `${Date.now()}-car-${file.originalname.replace(/\s+/g, '-')}`;
+            const filePath = path.join(UPLOAD_DIR, fileName);
+            fs.writeFileSync(filePath, file.buffer);
+            fotosArray[0] = `/uploads/${fileName}`;
+        } else if (body.existing_car_photo) {
+            // Keep existing
+            fotosArray[0] = body.existing_car_photo;
         }
+
+        // Slot 1: Cedula Frente
+        const f1 = processPhotoSlot('cedulaFrente', files?.['cedulaFrente'], body.existing_cedulaFrente);
+        if (f1) fotosArray[1] = f1;
+
+        // Slot 2: Cedula Dorso
+        const f2 = processPhotoSlot('cedulaDorso', files?.['cedulaDorso'], body.existing_cedulaDorso);
+        if (f2) fotosArray[2] = f2;
+
+        // Slot 3: Licencia
+        const f3 = processPhotoSlot('carnet', files?.['carnet'], body.existing_carnet);
+        if (f3) fotosArray[3] = f3;
+
+        // Slot 4: Prueba Vida
+        const f4 = processPhotoSlot('pruebaVida', files?.['pruebaVida'], body.existing_pruebaVida);
+        if (f4) fotosArray[4] = f4;
+
+        // NEW: Handle generic 'fotos' (e.g. from Cotizar page)
+
 
         const finalFotos = fotosArray.filter(f => f !== undefined && f !== null);
 
