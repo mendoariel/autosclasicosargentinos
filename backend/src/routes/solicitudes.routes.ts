@@ -9,7 +9,7 @@ const router = Router();
 // Configure Multer (Memory storage to handle in controller)
 const upload = multer({
     storage: multer.memoryStorage(),
-    limits: { fileSize: 10 * 1024 * 1024 } // 10MB
+    limits: { fileSize: 50 * 1024 * 1024 } // 50MB
 });
 
 // Public Routes
