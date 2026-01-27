@@ -87,12 +87,13 @@ export default function AsesorDashboard() {
     const getFilteredList = () => {
         return solicitudes.filter(s => {
             const hasDocs = hasDocPhotos(s);
+            const isActive = ['NUEVA', 'FOTOS_SUBIDAS'].includes(s.estado);
 
             if (activeTab === 'NUEVAS') {
-                return s.estado === 'NUEVA' && !hasDocs;
+                return isActive && !hasDocs;
             }
             if (activeTab === 'FOTOS') {
-                return s.estado === 'FOTOS_SUBIDAS' || hasDocs;
+                return isActive && hasDocs;
             }
             if (activeTab === 'HISTORIAL') return ['GANADA', 'PERDIDA'].includes(s.estado);
             return false;
@@ -140,8 +141,9 @@ export default function AsesorDashboard() {
                         Nuevas Cotizaciones
                         <span className="badge">
                             {solicitudes.filter(s => {
+                                const isActive = ['NUEVA', 'FOTOS_SUBIDAS'].includes(s.estado);
                                 const hasDocs = s.fotos?.some(f => f.includes('cedula') || f.includes('carnet') || f.includes('pruebaVida'));
-                                return s.estado === 'NUEVA' && !hasDocs;
+                                return isActive && !hasDocs;
                             }).length}
                         </span>
                     </button>
@@ -152,8 +154,9 @@ export default function AsesorDashboard() {
                         Con Documentación
                         <span className="badge badge-green">
                             {solicitudes.filter(s => {
+                                const isActive = ['NUEVA', 'FOTOS_SUBIDAS'].includes(s.estado);
                                 const hasDocs = s.fotos?.some(f => f.includes('cedula') || f.includes('carnet') || f.includes('pruebaVida'));
-                                return s.estado === 'FOTOS_SUBIDAS' || hasDocs;
+                                return isActive && hasDocs;
                             }).length}
                         </span>
                     </button>
