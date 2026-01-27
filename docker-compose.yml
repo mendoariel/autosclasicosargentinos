@@ -51,12 +51,8 @@ services:
       DATABASE_URL: postgresql://${DB_USER}:${DB_PASSWORD}@postgres:5432/${DB_NAME}
       JWT_SECRET: ${JWT_SECRET}
       UPLOAD_DIR: /app/uploads
-      EMAIL_HOST: ${EMAIL_HOST}
-      EMAIL_PORT: ${EMAIL_PORT}
-      EMAIL_USER: ${EMAIL_USER}
-      EMAIL_PASS: ${EMAIL_PASS}
-      EMAIL_FROM: ${EMAIL_FROM}
-      ADVISOR_EMAIL: ${ADVISOR_EMAIL}
+    env_file:
+      - .env
     volumes:
       - uploads_data:/app/uploads
     depends_on:
