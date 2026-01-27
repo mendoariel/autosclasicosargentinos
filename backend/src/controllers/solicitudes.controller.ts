@@ -2,7 +2,7 @@ import fs from 'fs';
 import path from 'path';
 import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
-import { sendEmail, generateSolicitudEmail, generatePhotosUploadedEmail } from '../services/emailService';
+import { sendEmail, generateSolicitudEmail, generatePhotosUploadedEmail, testEmailConfiguration } from '../services/emailService';
 
 const prisma = new PrismaClient();
 const UPLOAD_DIR = process.env.UPLOAD_DIR || '/app/uploads';
@@ -248,5 +248,14 @@ export const updateEstado = async (req: Request, res: Response) => {
     } catch (error) {
         console.error('Error updating estado:', error);
         res.status(500).json({ error: 'Error interno del servidor' });
+    }
+};
+// DEBUG Endpoint
+export const debugEmail = async (req: Request, res: Response) => {
+    try {
+        const result = await testEmailConfiguration();
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ error: 'Internal debug error', details: error });
     }
 };

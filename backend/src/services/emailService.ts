@@ -132,3 +132,31 @@ export const generatePhotosUploadedEmail = (solicitud: any) => {
     html: htmlContent
   };
 };
+// Debug function to test configuration
+export const testEmailConfiguration = async () => {
+  const config = {
+    host: process.env.EMAIL_HOST || 'smtp-mail.outlook.com',
+    port: process.env.EMAIL_PORT || '587',
+    user: process.env.EMAIL_USER ? '***' : 'MISSING',
+    pass: process.env.EMAIL_PASS ? '***' : 'MISSING',
+    from: process.env.EMAIL_FROM || 'info@autosclasicosargentinos.com.ar',
+    advisorEmail: process.env.ADVISOR_EMAIL || 'MISSING'
+  };
+
+  try {
+    await transporter.verify();
+    return {
+      success: true,
+      message: 'Transporter connection verified successfully',
+      config
+    };
+  } catch (error: any) {
+    return {
+      success: false,
+      message: 'Transporter connection failed',
+      error: error.message,
+      stack: error.stack,
+      config
+    };
+  }
+};
