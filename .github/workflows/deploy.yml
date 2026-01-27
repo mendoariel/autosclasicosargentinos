@@ -45,4 +45,5 @@ jobs:
             docker compose up -d --build && \
             sleep 5 && \
             docker exec autosclasicos-backend npx prisma generate && \
+            docker exec -u root autosclasicos-backend chown -R nodejs:nodejs /app/uploads && \
             docker exec -i autosclasicos-db psql -U prod_user -d autosclasicos < database/schema.sql"

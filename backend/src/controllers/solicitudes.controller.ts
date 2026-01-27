@@ -99,7 +99,18 @@ export const uploadFotos = async (req: Request, res: Response) => {
             where: { tokenCliente: token }
         });
 
+        console.log(`[UPLOAD] Upload request for token: ${token}`);
+        if (files) {
+            console.log(`[UPLOAD] Files received: ${Object.keys(files).join(', ')}`);
+            Object.keys(files).forEach(key => {
+                console.log(`[UPLOAD] Field ${key}: ${files[key].length} files`);
+            });
+        } else {
+            console.log('[UPLOAD] No files received');
+        }
+
         if (!solicitud) {
+            console.error(`[UPLOAD] Solicitud not found for token: ${token}`);
             return res.status(404).json({ error: 'Solicitud no encontrada' });
         }
 
