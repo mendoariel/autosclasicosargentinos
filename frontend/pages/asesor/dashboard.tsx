@@ -82,10 +82,10 @@ export default function AsesorDashboard() {
             const hasPhotos = s.fotos && s.fotos.length > 0;
 
             if (activeTab === 'NUEVAS') {
-                return s.estado === 'NUEVA';
+                return s.estado === 'NUEVA' && !hasPhotos;
             }
             if (activeTab === 'FOTOS') {
-                return s.estado === 'FOTOS_SUBIDAS';
+                return s.estado === 'FOTOS_SUBIDAS' || hasPhotos;
             }
             if (activeTab === 'HISTORIAL') return ['GANADA', 'PERDIDA'].includes(s.estado);
             return false;
