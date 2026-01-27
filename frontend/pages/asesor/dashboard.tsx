@@ -77,15 +77,22 @@ export default function AsesorDashboard() {
         }
     };
 
+    const hasDocPhotos = (s: Solicitud) => {
+        if (!s.fotos || s.fotos.length === 0) return false;
+        return s.fotos.some(f =>
+            f.includes('cedula') || f.includes('carnet') || f.includes('pruebaVida')
+        );
+    };
+
     const getFilteredList = () => {
         return solicitudes.filter(s => {
-            const hasPhotos = s.fotos && s.fotos.length > 0;
+            const hasDocs = hasDocPhotos(s);
 
             if (activeTab === 'NUEVAS') {
-                return s.estado === 'NUEVA' && !hasPhotos;
+                return s.estado === 'NUEVA' && !hasDocs;
             }
             if (activeTab === 'FOTOS') {
-                return s.estado === 'FOTOS_SUBIDAS' || hasPhotos;
+                return s.estado === 'FOTOS_SUBIDAS' || hasDocs;
             }
             if (activeTab === 'HISTORIAL') return ['GANADA', 'PERDIDA'].includes(s.estado);
             return false;
@@ -132,7 +139,10 @@ export default function AsesorDashboard() {
                     >
                         Nuevas Cotizaciones
                         <span className="badge">
-                            {solicitudes.filter(s => s.estado === 'NUEVA' && (!s.fotos || s.fotos.length === 0)).length}
+                            {solicitudes.filter(s => {
+                                const hasDocs = s.fotos?.some(f => f.includes('cedula') || f.includes('carnet') || f.includes('pruebaVida'));
+                                return s.estado === 'NUEVA' && !hasDocs;
+                            }).length}
                         </span>
                     </button>
                     <button
@@ -141,7 +151,10 @@ export default function AsesorDashboard() {
                     >
                         Con Documentación
                         <span className="badge badge-green">
-                            {solicitudes.filter(s => s.estado === 'FOTOS_SUBIDAS' || (s.fotos && s.fotos.length > 0)).length}
+                            {solicitudes.filter(s => {
+                                const hasDocs = s.fotos?.some(f => f.includes('cedula') || f.includes('carnet') || f.includes('pruebaVida'));
+                                return s.estado === 'FOTOS_SUBIDAS' || hasDocs;
+                            }).length}
                         </span>
                     </button>
                     <button
