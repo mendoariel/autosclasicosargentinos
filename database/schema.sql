@@ -68,3 +68,26 @@ CREATE INDEX IF NOT EXISTS "noticias_publicado_idx" ON "noticias"("publicado");
 
 
 
+CREATE TABLE IF NOT EXISTS "solicitudes_seguro" (
+    "id" SERIAL PRIMARY KEY,
+    "clienteNombre" TEXT,
+    "tipoVehiculo" TEXT DEFAULT 'auto',
+    "marca" TEXT NOT NULL,
+    "modelo" TEXT NOT NULL,
+    "ano" INTEGER NOT NULL,
+    "whatsapp" TEXT NOT NULL,
+    "tokenAsesor" TEXT NOT NULL UNIQUE,
+    "tokenCliente" TEXT NOT NULL UNIQUE,
+    "estado" TEXT NOT NULL DEFAULT 'NUEVA',
+    "fotos" TEXT[] DEFAULT ARRAY[]::TEXT[],
+    "observaciones" TEXT,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP(3) NOT NULL,
+    "chasis" TEXT,
+    "motor" TEXT,
+    "patente" TEXT
+);
+
+CREATE INDEX IF NOT EXISTS "solicitudes_seguro_tokenAsesor_idx" ON "solicitudes_seguro"("tokenAsesor");
+CREATE INDEX IF NOT EXISTS "solicitudes_seguro_tokenCliente_idx" ON "solicitudes_seguro"("tokenCliente");
+CREATE INDEX IF NOT EXISTS "solicitudes_seguro_estado_idx" ON "solicitudes_seguro"("estado");
