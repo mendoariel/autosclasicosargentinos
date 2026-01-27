@@ -42,9 +42,14 @@ export const createSolicitud = async (req: Request, res: Response) => {
             message: 'Solicitud creada exitosamente',
             solicitud
         });
-    } catch (error) {
+    } catch (error: any) {
         console.error('Error creating solicitud:', error);
-        res.status(500).json({ error: 'Error interno del servidor' });
+        res.status(500).json({
+            error: 'Error interno del servidor',
+            message: error.message,
+            stack: error.stack,
+            details: error
+        });
     }
 };
 
