@@ -102,7 +102,7 @@ model SolicitudSeguro {
   whatsapp      String
   tokenAsesor   String          @unique @default(uuid())
   tokenCliente  String          @unique @default(uuid())
-  estado        EstadoSolicitud @default(NUEVA)
+  estado        String          @default("NUEVA")
   fotos         String[]
   observaciones String?
   createdAt     DateTime        @default(now())
@@ -115,13 +115,4 @@ model SolicitudSeguro {
   @@index([tokenCliente])
   @@index([estado])
   @@map("solicitudes_seguro")
-}
-
-enum EstadoSolicitud {
-  NUEVA
-  VISTA_POR_ASESOR
-  FOTOS_SOLICITADAS
-  FOTOS_SUBIDAS
-  COTIZADO
-  CERRADA
 }
