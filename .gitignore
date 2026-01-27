@@ -3,6 +3,7 @@
 *.key
 id_rsa*
 id_ed25519*
+traefik/acme.json
 
 # SSH config with sensitive data
 .ssh/config

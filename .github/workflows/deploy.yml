@@ -33,11 +33,14 @@ jobs:
             --exclude 'frontend/node_modules' \
             --exclude 'frontend/.next' \
             --exclude 'data' \
+            --exclude 'traefik/acme.json' \
             . ${{ secrets.USERNAME }}@${{ secrets.HOST }}:/root/autosclasicosargentinos/
 
       - name: Restart Services on Server
         run: |
           ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} "cd /root/autosclasicosargentinos && \
+            touch traefik/acme.json && \
+            chmod 600 traefik/acme.json && \
             docker compose down --remove-orphans || true && \
             docker compose up -d --build && \
             sleep 5 && \
