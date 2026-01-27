@@ -20,7 +20,7 @@ export interface EmailData {
 export const sendEmail = async (emailData: EmailData): Promise<boolean> => {
   try {
     const mailOptions = {
-      from: process.env.EMAIL_FROM || 'info@peludosclick.com',
+      from: process.env.EMAIL_FROM || 'info@autosclasicosargentinos.com.ar',
       to: emailData.to,
       subject: emailData.subject,
       html: emailData.html
@@ -36,7 +36,7 @@ export const sendEmail = async (emailData: EmailData): Promise<boolean> => {
 };
 
 export const generateSolicitudEmail = (solicitud: any) => {
-  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  const frontendUrl = process.env.FRONTEND_URL || 'https://autosclasicosargentinos.com.ar';
   const asesorLink = `${frontendUrl}/asesor/${solicitud.tokenAsesor}`;
   const clienteLink = `${frontendUrl}/cotizacion/${solicitud.tokenCliente}`;
 
@@ -98,7 +98,7 @@ export const generateSolicitudEmail = (solicitud: any) => {
 };
 
 export const generatePhotosUploadedEmail = (solicitud: any) => {
-  const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+  const frontendUrl = process.env.FRONTEND_URL || 'https://autosclasicosargentinos.com.ar';
   const asesorLink = `${frontendUrl}/asesor/${solicitud.tokenAsesor}`;
 
   const htmlContent = `
